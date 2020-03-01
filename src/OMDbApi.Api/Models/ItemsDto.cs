@@ -51,7 +51,7 @@ namespace OMDbApi.Models
         public string Poster { get; set; }
 
         [JsonPropertyName("Ratings")]
-        public RatingsDto Ratings { get; set; }
+        public IEnumerable<RatingsDto> Ratings { get; set; }
 
         [JsonPropertyName("Metascore")]
         public string Metascore { get; set; }
