@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace OMDbApi.Models
 {
-    public class RatingsDto
+    public class Rating
     {
         [JsonPropertyName("Source")]
         public string Source { get; set; }
-
         [JsonPropertyName("Value")]
         public string Value { get; set; }
     }
