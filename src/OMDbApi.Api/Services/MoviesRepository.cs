@@ -1,4 +1,7 @@
-﻿using OMDbApi.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OMDbApi.Api.Data;
+using OMDbApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,31 +13,29 @@ namespace OMDbApi.Api.Services
 {
     public class MoviesRepository : IMoviesRepository
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly Task<Movie> _movieContext;
-        private readonly JsonContentSerialiser _jsonContentSerialiser;
+        private readonly MoviesDbContext _context;
 
-        public MoviesRepository(IHttpClientFactory httpClientFactory, JsonContentSerialiser jsonContentSerialiser)
+        public MoviesRepository(MoviesDbContext context)
         {
-            _httpClientFactory = httpClientFactory;
-            _jsonContentSerialiser = jsonContentSerialiser;
-            //_movieContext = _jsonContentSerialiser.DeserialiseAsync<>
+            _context = context;
         }
 
-        public async Task<Movie> DeserialiseJsonAsync()
+        public async Task<IEnumerable<Movie>> GetMoviesAsync()
         {
-            var client = _httpClientFactory.CreateClient("OMDb");
-            var response = await client.GetStringAsync("");
-            return JsonSerializer.
+            return await _context.Movies.ToListAsync();
         }
 
-        public async Task<Movie> Get_MovieAsync(string title)
+        public async Task<Movie> GetMovieAsync(string title)
         {
-            var repo = await _movieContext;
-            if (String.IsNullOrEmpty(title))
-                throw new ArgumentNullException(nameof(title));
+            if (title == string.Empty)
+                throw new ArgumentException();
 
-            return await 
+            var movie = _context.Movies
+                .FirstOrDefaultAsync(m => m.Title == title);
+            if (movie == null)
+                throw new NullReferenceException();
+
+            return await movie;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace OMDbApi.Api.Services
 {
     public interface IMoviesRepository
     {
-        public Task<IEnumerable<Movie>> GetMovies();
+        public Task<IEnumerable<Movie>> GetMoviesAsync();
+        public Task<Movie> GetMovieAsync(string title);
     }
 }

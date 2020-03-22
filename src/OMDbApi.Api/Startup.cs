@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OMDbApi.Api.Data;
+using OMDbApi.Api.Services;
 using OMDbApi.Models;
 
 namespace OMDbApi.Api
@@ -29,7 +30,7 @@ namespace OMDbApi.Api
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public async Task ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             // Stream OMDb token data
             /*var json = string.Empty;
@@ -38,18 +39,21 @@ namespace OMDbApi.Api
             json = await streamReader.ReadToEndAsync().ConfigureAwait(false);
             var omdbConfigData = JsonSerializer.Deserialize<OMDbConfigData>(json);*/
 
-            OMDbConfigData omdbConfigData;
+            /*OMDbConfigData omdbConfigData;
             using (FileStream fs = File.OpenRead("config.json"))
-                omdbConfigData = await JsonSerializer.DeserializeAsync<OMDbConfigData>(fs);
+                omdbConfigData = await JsonSerializer.DeserializeAsync<OMDbConfigData>(fs);*/
 
             services.AddDbContext<MoviesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddControllers();
             services.AddHttpClient("OMDb", c =>
             {
-                c.BaseAddress = new Uri($"{omdbConfigData.BaseUri}&apikey={omdbConfigData.ApiKey}");
+                c.BaseAddress = new Uri("http://www.omdbapi.com/?i=tt3896198&apikey=75f14f13");
                 c.DefaultRequestHeaders.Add("Accept", "application/json");
             });
+
+            services.AddScoped<IMoviesRepository, MoviesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
