@@ -1,4 +1,4 @@
 {
-  "apiKey": "75f14f13",
-  "baseUri": "?i=tt3896198"
+  "baseUrl": "http://www.omdbapi.com",
+  "apiKey": "75f14f13"
 }

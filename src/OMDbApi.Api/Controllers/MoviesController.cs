@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OMDbApi.Api.Models;
 using OMDbApi.Api.Services;
 using OMDbApi.Models;
 using System;
@@ -16,21 +17,29 @@ namespace OMDbApi.Api.Controllers
     {
         private readonly IMoviesRepository _moviesRepository;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly Constants _constants;
 
         public MoviesController(IMoviesRepository moviesRepository, IHttpClientFactory httpClientFactory)
         {
             _moviesRepository = moviesRepository;
             _httpClientFactory = httpClientFactory;
+            _constants = new Constants();
+        }
+
+        [HttpGet]
+        public IActionResult GetMovies()
+        {
+            return Ok($"{_constants.omdbConfigData.BaseUrl}/?apikey={_constants.omdbConfigData.ApiKey}&t=batman");
         }
 
         //Get: api/Movies
-        [HttpGet]
+        /*[HttpGet]
         public async Task<IActionResult> GetMovies()
         {
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetStringAsync("http://www.omdbapi.com/?apikey=75f14f13&t=batman");
+            var response = await client.GetStringAsync($"{_baseUri}/?apikey={_apiKey}&t=batman");
             return Ok(JsonSerializer.Deserialize<Movie>(response));
-        }
+        }*/
 
         //Get: api/Movie
         /*[HttpGet]

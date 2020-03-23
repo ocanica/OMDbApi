@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OMDbApi.Api.Data;
+using OMDbApi.Api.Models;
 using OMDbApi.Api.Services;
 using OMDbApi.Models;
 
@@ -37,7 +38,6 @@ namespace OMDbApi.Api
 
             services.AddControllers();
             services.AddHttpClient();
-
             services.AddScoped<IMoviesRepository, MoviesRepository>();
         }
 

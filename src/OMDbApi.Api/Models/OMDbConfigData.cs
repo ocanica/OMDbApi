@@ -4,9 +4,9 @@ namespace OMDbApi.Models
 {
     public struct OMDbConfigData
     {
+        [JsonPropertyName("baseUrl")]
+        public string BaseUrl { get; set; }
         [JsonPropertyName("apiKey")]
-        public string ApiKey { get; private set; }
-        [JsonPropertyName("baseUri")]
-        public string BaseUri { get; private set; }
+        public string ApiKey { get; set; }
     }
 }

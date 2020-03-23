@@ -14,13 +14,18 @@ namespace OMDbApi.Api.Services
         public FileStreamer()
         {
             omdbConfigData = new OMDbConfigData();
-            LoadConfigDataAsync().GetAwaiter().GetResult();
+            LoadConfigDataAsync(omdbConfigData).GetAwaiter().GetResult();
         }
 
-        public async Task LoadConfigDataAsync()
+        public async Task LoadConfigDataAsync(OMDbConfigData x)
         {
-            using (FileStream fs = File.OpenRead("config.json"))
-                omdbConfigData = await JsonSerializer.DeserializeAsync<OMDbConfigData>(fs);
+            /*using (FileStream fs = File.OpenRead("config.json"))
+                omdbConfigData = await JsonSerializer.DeserializeAsync<OMDbConfigData>(fs);*/
+            var json = string.Empty;
+            using (var file = File.OpenRead("config.json"))
+            using (var streamReader = new StreamReader(file))
+                json = await streamReader.ReadToEndAsync().ConfigureAwait(false);
+            x = JsonSerializer.Deserialize<OMDbConfigData>(json);
         }
     }
 }
