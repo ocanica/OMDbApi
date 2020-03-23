@@ -32,26 +32,11 @@ namespace OMDbApi.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Stream OMDb token data
-            /*var json = string.Empty;
-            using (var file = File.OpenRead("config.json"))
-            using (var streamReader = new StreamReader(file, new UTF8Encoding(false)))
-            json = await streamReader.ReadToEndAsync().ConfigureAwait(false);
-            var omdbConfigData = JsonSerializer.Deserialize<OMDbConfigData>(json);*/
-
-            /*OMDbConfigData omdbConfigData;
-            using (FileStream fs = File.OpenRead("config.json"))
-                omdbConfigData = await JsonSerializer.DeserializeAsync<OMDbConfigData>(fs);*/
-
             services.AddDbContext<MoviesDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
-            services.AddHttpClient("OMDb", c =>
-            {
-                c.BaseAddress = new Uri("http://www.omdbapi.com/?i=tt3896198&apikey=75f14f13");
-                c.DefaultRequestHeaders.Add("Accept", "application/json");
-            });
+            services.AddHttpClient();
 
             services.AddScoped<IMoviesRepository, MoviesRepository>();
         }

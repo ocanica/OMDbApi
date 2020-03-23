@@ -11,5 +11,6 @@ namespace OMDbApi.Api.Services
     {
         public Task<IEnumerable<Movie>> GetMoviesAsync();
         public Task<Movie> GetMovieAsync(string title);
+        public Task AddMovie(Movie movie);
     }
 }

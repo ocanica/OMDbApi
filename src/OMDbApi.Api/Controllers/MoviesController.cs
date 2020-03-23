@@ -16,6 +16,7 @@ namespace OMDbApi.Api.Controllers
     {
         private readonly IMoviesRepository _moviesRepository;
         private readonly IHttpClientFactory _httpClientFactory;
+
         public MoviesController(IMoviesRepository moviesRepository, IHttpClientFactory httpClientFactory)
         {
             _moviesRepository = moviesRepository;
@@ -26,11 +27,20 @@ namespace OMDbApi.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMovies()
         {
-            var client = _httpClientFactory.CreateClient("OMDb");
-            var response = await client.GetStringAsync("");
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetStringAsync("http://www.omdbapi.com/?apikey=75f14f13&t=batman");
             return Ok(JsonSerializer.Deserialize<Movie>(response));
         }
 
+        //Get: api/Movie
+        /*[HttpGet]
+
+        public async Task<IActionResult> GetMovie()
+        {
+            var client = _httpClientFactory.CreateClient("OMDb");
+            var response = await client.GetStringAsync("");
+            return Ok(JsonSerializer.Deserialize<Movie>(response));
+        }*/
 
         //Get: api/Movies
         /*[HttpGet]
@@ -44,7 +54,7 @@ namespace OMDbApi.Api.Controllers
         }*/
 
         // Get: api/Movies/Ghostbusters
-        [HttpGet]
+        /*[HttpGet]
         [Route("{title}")]
         public async Task<IActionResult> GetMovie(string title)
         {
@@ -53,6 +63,8 @@ namespace OMDbApi.Api.Controllers
                 return NotFound();
 
             return Ok(result);
-        }
+        }*/
+
+        //Post: api/Movie/
     }
 }

@@ -37,5 +37,14 @@ namespace OMDbApi.Api.Services
 
             return await movie;
         }
+
+        public async Task AddMovie(Movie movie)
+        {
+            if (movie == null)
+                throw new NullReferenceException();
+
+            await _context.AddAsync(movie);
+            _context.SaveChanges();
+        }
     }
 }
