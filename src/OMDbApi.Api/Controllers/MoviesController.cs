@@ -26,20 +26,16 @@ namespace OMDbApi.Api.Controllers
             _constants = new Constants();
         }
 
-        [HttpGet]
-        public IActionResult GetMovies()
-        {
-            return Ok($"{_constants.omdbConfigData.BaseUrl}/?apikey={_constants.omdbConfigData.ApiKey}&t=batman");
-        }
-
         //Get: api/Movies
-        /*[HttpGet]
+        [HttpGet]
         public async Task<IActionResult> GetMovies()
         {
+            var baseUrl = _constants.omdbConfigData.BaseUrl;
+            var apiKey = _constants.omdbConfigData.ApiKey;
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetStringAsync($"{_baseUri}/?apikey={_apiKey}&t=batman");
+            var response = await client.GetStringAsync($"{baseUrl}/?apikey={apiKey}&t=batman");
             return Ok(JsonSerializer.Deserialize<Movie>(response));
-        }*/
+        }
 
         //Get: api/Movie
         /*[HttpGet]

@@ -14,9 +14,12 @@ namespace OMDbApi.Api.Models
 
         public Constants()
         {
+            // Poor implemention, blocking
             omdbConfigData = LoadConfigDataAsync().GetAwaiter().GetResult();
         }
 
+        // REFACTOR: This function seems out of place ihere
+        // May need to revisit and create Service class
         public async Task<OMDbConfigData> LoadConfigDataAsync()
         {
             using FileStream fs = File.OpenRead("config.json");
