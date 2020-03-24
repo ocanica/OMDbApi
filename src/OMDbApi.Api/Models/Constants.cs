@@ -1,4 +1,5 @@
-﻿using OMDbApi.Models;
+﻿using OMDbApi.Api.Services;
+using OMDbApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,8 @@ namespace OMDbApi.Api.Models
         public Constants()
         {
             // Poor implemention, blocking
-            omdbConfigData = LoadConfigDataAsync().GetAwaiter().GetResult();
+            omdbConfigData = FileStreamer.DeserialiseDataToModelAsync<OMDbConfigData>("config.json")
+                .GetAwaiter().GetResult();
         }
 
         // REFACTOR: This function seems out of place ihere
