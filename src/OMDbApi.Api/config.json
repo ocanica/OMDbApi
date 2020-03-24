@@ -1,4 +1,4 @@
 {
-  "baseUrl": "http://www.omdbapi.com",
+  "baseUrl": "http://www.omdbapi.com/",
   "apiKey": "75f14f13"
 }

@@ -1,31 +1,24 @@
 ﻿using OMDbApi.Api.Services;
 using OMDbApi.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace OMDbApi.Api.Models
 {
     public class Constants
     {
-        public OMDbConfigData omdbConfigData;
+        public Task<OMDbConfigData> omdbConfigData;
 
         public Constants()
         {
-            // Poor implemention, blocking
-            omdbConfigData = FileStreamer.DeserialiseDataToModelAsync<OMDbConfigData>("config.json")
-                .GetAwaiter().GetResult();
+            // Poor implemention, blocking, will cause a deadlock
+            omdbConfigData = FileStreamer.DeserialiseDataToModelAsync<OMDbConfigData>("config.json");
         }
 
-        // REFACTOR: This function seems out of place ihere
-        // May need to revisit and create Service class
-        public async Task<OMDbConfigData> LoadConfigDataAsync()
+        /*
+        public static class Services
         {
-            using FileStream fs = File.OpenRead("config.json");
-            return await JsonSerializer.DeserializeAsync<OMDbConfigData>(fs);
+            public const string OMDB_BASE_URL = "http://www.omdbapi.com/";
         }
+        */
     }
 }

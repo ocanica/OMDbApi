@@ -11,8 +11,9 @@ using System.Threading.Tasks;
 
 namespace OMDbApi.Api.Controllers
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
+    [Route("api/[controller]")]
     public class MoviesController : ControllerBase
     {
         private readonly IMoviesRepository _moviesRepository;
@@ -30,12 +31,34 @@ namespace OMDbApi.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMovies()
         {
-            var baseUrl = _constants.omdbConfigData.BaseUrl;
-            var apiKey = _constants.omdbConfigData.ApiKey;
+            var configData = await _constants.omdbConfigData;
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetStringAsync($"{baseUrl}/?apikey={apiKey}&t=batman");
+            var response = await client.GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t=batman");
             return Ok(JsonSerializer.Deserialize<Movie>(response));
         }
+
+        //Get: api/Movie/Ghostbusters
+        [HttpGet]
+        [Route("{title}")]
+        public async Task<IActionResult> GetMovie(string title)
+        {
+            var configData = await _constants.omdbConfigData;
+            var client = _httpClientFactory.CreateClient();
+            var response = await client.GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t={title}");
+            return Ok(JsonSerializer.Deserialize<Movie>(response));
+        }
+
+        // Get: api/Movies/id
+        /*[HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetMovie(string id)
+        {
+            var result = await _moviesRepository.GetMovieAsync(id);
+            if (result == null)
+                return NotFound();
+
+            return Ok(result);
+        }*/
 
         //Get: api/Movie
         /*[HttpGet]
@@ -58,17 +81,7 @@ namespace OMDbApi.Api.Controllers
             return Ok(result);
         }*/
 
-        // Get: api/Movies/Ghostbusters
-        /*[HttpGet]
-        [Route("{title}")]
-        public async Task<IActionResult> GetMovie(string title)
-        {
-            var result = await _moviesRepository.GetMovieAsync(title);
-            if (result == null)
-                return NotFound();
 
-            return Ok(result);
-        }*/
 
         //Post: api/Movie/
     }
