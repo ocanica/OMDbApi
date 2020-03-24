@@ -1,12 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace OMDbApi.Models
+namespace OMDbApi.Api.Models
 {
     public class Rating
     {
-        [JsonPropertyName("Source")]
-        public string Source { get; set; }
-        [JsonPropertyName("Value")]
-        public string Value { get; set; }
+        public Guid UserId { get; set; }
+        public string IMDbId { get; set; }
+        public int MovieRating { get; set; }
     }
 }
