@@ -9,7 +9,7 @@ namespace OMDbApi.Models
     public class Movie
     {
         [JsonPropertyName("imdbID")]
-        public string imdbID { get; set; }
+        public string IMDbId { get; set; }
         [JsonPropertyName("Title")]
         public string Title { get; set; }
         [JsonPropertyName("Released")]
