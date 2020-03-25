@@ -10,7 +10,7 @@ using OMDbApi.Api.Data;
 namespace OMDbApi.Api.Migrations
 {
     [DbContext(typeof(OMDbContext))]
-    [Migration("20200325173818_initial")]
+    [Migration("20200325174609_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

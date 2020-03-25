@@ -1,16 +1,12 @@
-﻿using OMDbApi.Models;
-using System;
+﻿using OMDbApi.Api.Contracts;
+using OMDbApi.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace OMDbApi.Api.Services
 {
-    public interface IMoviesRepository
+    public interface IMoviesRepository : IGenericRepository<Movie>
     {
-        public Task<IEnumerable<Movie>> GetMoviesAsync();
-        public Task<Movie> GetMovieAsync(string title);
-        public Task AddMovie(Movie movie);
+        
     }
 }
