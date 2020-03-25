@@ -4,9 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OMDbApi.Contracts;
-using OMDbApi.Data;
-using OMDbApi.Services;
+using OMDbApi.Api.Contracts;
+using OMDbApi.Api.Data;
+using OMDbApi.Api.Models;
+using OMDbApi.Api.Services;
 
 namespace OMDbApi.Api
 {
@@ -27,7 +28,8 @@ namespace OMDbApi.Api
 
             services.AddControllers();
             services.AddHttpClient();
-            services.AddScoped<IMoviesRepository, MoviesRepository>();
+            services.AddScoped<IGenericRepository<Movie>, MoviesRepository>();
+            services.AddScoped<IGenericRepository<User>, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

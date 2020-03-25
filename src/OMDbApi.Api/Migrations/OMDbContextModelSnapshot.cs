@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using OMDbApi.Data;
+using OMDbApi.Api.Data;
 
 namespace OMDbApi.Api.Migrations
 {

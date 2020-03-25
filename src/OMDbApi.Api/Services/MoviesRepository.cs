@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OMDbApi.Contracts;
-using OMDbApi.Data;
-using OMDbApi.Models;
+using OMDbApi.Api.Contracts;
+using OMDbApi.Api.Data;
+using OMDbApi.Api.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OMDbApi.Services
+namespace OMDbApi.Api.Services
 {
     public class MoviesRepository : IMoviesRepository
     {

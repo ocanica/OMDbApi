@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace OMDbApi.Models
+namespace OMDbApi.Api.Models
 {
     public class Movie
     {

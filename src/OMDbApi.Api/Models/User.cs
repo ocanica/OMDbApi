@@ -1,8 +1,8 @@
-﻿using OMDbApi.Contracts;
+﻿using OMDbApi.Api.Contracts;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace OMDbApi.Models
+namespace OMDbApi.Api.Models
 {
     public class User : IUser
     {

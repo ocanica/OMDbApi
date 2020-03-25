@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OMDbApi.Models
+namespace OMDbApi.Api.Models
 {
     public class Rating
     {

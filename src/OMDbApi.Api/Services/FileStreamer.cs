@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace OMDbApi.Services
+namespace OMDbApi.Api.Services
 {
     public class FileStreamer
     {

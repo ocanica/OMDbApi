@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OMDbApi.Contracts
+namespace OMDbApi.Api.Contracts
 {
     public interface ITransaction
     {

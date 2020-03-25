@@ -1,22 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OMDbApi.Models;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using OMDbApi.Contracts;
+using OMDbApi.Api.Contracts;
+using OMDbApi.Api.Models;
 
-namespace OMDbApi.Controllers
+namespace OMDbApi.Api.Controllers
 {
 
     [ApiController]
     [Route("api/[controller]")]
     public class MoviesController : ControllerBase
     {
-        private readonly IMoviesRepository _moviesRepository;
+        private readonly IGenericRepository<Movie> _moviesRepository;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly Constants _constants;
 
-        public MoviesController(IMoviesRepository moviesRepository, IHttpClientFactory httpClientFactory)
+        public MoviesController(IGenericRepository<Movie> moviesRepository, IHttpClientFactory httpClientFactory)
         {
             _moviesRepository = moviesRepository;
             _httpClientFactory = httpClientFactory;
@@ -32,7 +32,7 @@ namespace OMDbApi.Controllers
             var response = await client.GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t=batman");
             return Ok(JsonSerializer.Deserialize<Movie>(response));
         }
-
+        /*
         //Get: api/Movie/Ghostbusters
         [HttpGet]
         [Route("{title}")]
@@ -42,19 +42,18 @@ namespace OMDbApi.Controllers
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t={title}");
             return Ok(JsonSerializer.Deserialize<Movie>(response));
-        }
+        }*/
 
-        // Get: api/Movies/id
-        /*[HttpGet]
+        //Get: api/Movies/id
+        [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetMovie(string id)
         {
-            var result = await _moviesRepository.GetMovieAsync(id);
+            var result = await _moviesRepository.Get(id);
             if (result == null)
                 return NotFound();
-
             return Ok(result);
-        }*/
+        }
 
         //Get: api/Movie
         /*[HttpGet]

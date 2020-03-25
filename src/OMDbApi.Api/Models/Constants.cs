@@ -1,8 +1,7 @@
-﻿using OMDbApi.Services;
-using OMDbApi.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using OMDbApi.Api.Services;
 
-namespace OMDbApi.Models
+namespace OMDbApi.Api.Models
 {
     public class Constants
     {

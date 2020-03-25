@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OMDbApi.Models;
+using OMDbApi.Api.Models;
 
-namespace OMDbApi.Data
+namespace OMDbApi.Api.Data
 {
     public class OMDbContext : DbContext
     {
