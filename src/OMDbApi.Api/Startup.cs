@@ -1,23 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using OMDbApi.Api.Data;
-using OMDbApi.Api.Models;
-using OMDbApi.Api.Services;
-using OMDbApi.Models;
+using OMDbApi.Contracts;
+using OMDbApi.Data;
+using OMDbApi.Services;
 
 namespace OMDbApi.Api
 {

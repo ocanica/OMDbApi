@@ -6,34 +6,33 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OMDbApi.Services
+namespace OMDbApi.Api.Services
 {
-    public class MoviesRepository : IMoviesRepository
+    public class UserRepository : IUserRepository
     {
         private readonly OMDbContext _context;
 
-        public MoviesRepository(OMDbContext context)
+        public UserRepository(OMDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Movie>> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
-            return await _context.Movies.ToListAsync();
+            return await _context.Users.ToListAsync();
         }
 
-        public async Task<Movie> Get(string id)
+        public async Task<User> Get(string id)
         {
             if (id == string.Empty)
                 throw new ArgumentException();
-            var movie = _context.Movies;
-            if (movie == null)
+            var user = _context.Users;
+            if (user == null)
                 throw new NullReferenceException();
-            return await movie
-                .FirstOrDefaultAsync(m => m.IMDbId == id);
+            return await user.FirstOrDefaultAsync(u => u.Username == id);
         }
 
-        public async Task Add(Movie entity)
+        public async Task Add(User entity)
         {
             if (entity == null)
                 throw new ArgumentNullException();
@@ -41,7 +40,7 @@ namespace OMDbApi.Services
             _context.SaveChanges();
         }
 
-        public void Remove(Movie entity)
+        public void Remove(User entity)
         {
             if (entity == null)
                 throw new ArgumentNullException();

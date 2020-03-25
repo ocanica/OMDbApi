@@ -1,9 +1,9 @@
-﻿using OMDbApi.Api.Contracts;
+﻿using OMDbApi.Contracts;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace OMDbApi.Api.Models
+namespace OMDbApi.Models
 {
     public class Transaction : ITransaction
     {

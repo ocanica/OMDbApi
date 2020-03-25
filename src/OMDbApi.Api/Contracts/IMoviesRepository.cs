@@ -1,12 +1,11 @@
-﻿using OMDbApi.Api.Contracts;
+﻿using OMDbApi.Contracts;
 using OMDbApi.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace OMDbApi.Api.Services
+namespace OMDbApi.Contracts
 {
     public interface IMoviesRepository : IGenericRepository<Movie>
     {
-        
     }
 }

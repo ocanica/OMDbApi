@@ -1,17 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OMDbApi.Api.Models;
-using OMDbApi.Api.Services;
 using OMDbApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using OMDbApi.Contracts;
 
-namespace OMDbApi.Api.Controllers
+namespace OMDbApi.Controllers
 {
-    
+
     [ApiController]
     [Route("api/[controller]")]
     public class MoviesController : ControllerBase

@@ -1,14 +1,8 @@
-﻿using OMDbApi.Api.Data;
-using OMDbApi.Api.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using OMDbApi.Models;
 
-namespace OMDbApi.Api.Contracts
+namespace OMDbApi.Contracts
 {
-    public interface IUserRepository : IGenericRepository<User>
+    interface IUserRepository : IGenericRepository<User>
     {
-
     }
 }

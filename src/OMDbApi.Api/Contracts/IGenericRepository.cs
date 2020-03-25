@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace OMDbApi.Api.Contracts
+namespace OMDbApi.Contracts
 {
     public interface IGenericRepository<T>
         where T : class
     {
         public Task<IEnumerable<T>> GetAll();
-        public Task<T> Get(T entity);
-        public Task<T> Add(T entity);
-        public Task<T> Remove(T entity);
+        public Task<T> Get(string id);
+        public Task Add(T entity);
+        public void Remove(T entity);
     }
 }

@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OMDbApi.Api.Models;
 using OMDbApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace OMDbApi.Api.Data
+namespace OMDbApi.Data
 {
     public class OMDbContext : DbContext
     {
