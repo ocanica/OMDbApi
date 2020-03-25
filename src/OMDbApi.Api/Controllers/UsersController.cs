@@ -18,27 +18,59 @@ namespace OMDbApi.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetAll()
         {
             var result = await _usersRepository.GetAll();
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("add")]
-        public async Task AddUser()
+        [Route("get/{name}")]
+        public async Task<IActionResult> Get(string name)
         {
-            var alex = new User
+            var result = await _usersRepository.Get(name);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("add")]
+        public async Task Add()
+        {
+            var jamie = new User
             {
-                Username = "alexf",
+                Username = "jamiefox",
+                Password = "InLivingColor93",
+                FirstName = "Jamie",
+                LastName = "Fox",
+                DateRegistered = DateTime.Now,
+                DateModified = DateTime.Now
+            };
+
+            var axel = new User
+            {
+                Username = "axelf",
                 Password = "abc123",
-                FirstName = "Alex",
+                Email = "axelf@hotmail.com",
+                FirstName = "Axel",
                 LastName = "Foley",
                 DateRegistered = DateTime.Now,
                 DateModified = DateTime.Now
             };
 
-            await _usersRepository.Add(alex);
+            await _usersRepository.Add(jamie);
+            await _usersRepository.Add(axel);
+        }
+
+        [HttpPost]
+        [Route("remove/{id}")]
+        public void Remove(string id)
+        {
+            // Temporary solution, will cause deadlock
+            var entity = _usersRepository.Get(id)
+                .GetAwaiter().GetResult();
+            _usersRepository.Remove(entity);
         }
     }
 }

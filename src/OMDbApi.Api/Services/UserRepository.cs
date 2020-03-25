@@ -24,26 +24,18 @@ namespace OMDbApi.Api.Services
 
         public async Task<User> Get(string id)
         {
-            if (id == string.Empty)
-                throw new ArgumentException();
             var user = _context.Users;
-            if (user == null)
-                throw new NullReferenceException();
-            return await user.FirstOrDefaultAsync(u => u.Username == id);
+            return await user.FirstOrDefaultAsync(u => u.FirstName == id);
         }
 
         public async Task Add(User entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException();
             await _context.AddAsync(entity);
             _context.SaveChanges();
         }
 
         public void Remove(User entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException();
             _context.RemoveRange(entity);
             _context.SaveChanges();
         }

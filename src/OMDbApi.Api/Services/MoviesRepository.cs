@@ -24,27 +24,19 @@ namespace OMDbApi.Api.Services
 
         public async Task<Movie> Get(string id)
         {
-            if (id == string.Empty)
-                throw new ArgumentException();
             var movie = _context.Movies;
-            if (movie == null)
-                throw new NullReferenceException();
             return await movie
                 .FirstOrDefaultAsync(m => m.IMDbId == id);
         }
 
         public async Task Add(Movie entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException();
             await _context.AddAsync(entity);
             _context.SaveChanges();
         }
 
         public void Remove(Movie entity)
         {
-            if (entity == null)
-                throw new ArgumentNullException();
             _context.RemoveRange(entity);
             _context.SaveChanges();
         }
