@@ -13,9 +13,9 @@ namespace OMDbApi.Api.Services
 {
     public class MoviesRepository : IMoviesRepository
     {
-        private readonly MoviesDbContext _context;
+        private readonly OMDbContext _context;
 
-        public MoviesRepository(MoviesDbContext context)
+        public MoviesRepository(OMDbContext context)
         {
             _context = context;
         }

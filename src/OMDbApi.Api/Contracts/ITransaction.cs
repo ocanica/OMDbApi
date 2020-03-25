@@ -7,7 +7,8 @@ namespace OMDbApi.Api.Contracts
 {
     public interface ITransaction
     {
-        public Guid UserId { get; set; }
+        public Guid TransactionId { get; set; }
+        public string Username { get; set; }
         public string IMDbId { get; set; }
         public DateTime DateId { get; set; }
     }

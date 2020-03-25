@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace OMDbApi.Models
 {
     public class Movie
     {
+        [Key]
         [JsonPropertyName("imdbID")]
         public string IMDbId { get; set; }
         [JsonPropertyName("Title")]
@@ -32,7 +34,5 @@ namespace OMDbApi.Models
         public string Poster { get; set; }
         [JsonPropertyName("imdbRating")]
         public string imdbRating { get; set; }
-        [JsonPropertyName("Ratings")]
-        public IEnumerable<Ratings> Ratings { get; set; }
     }
 }
