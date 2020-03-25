@@ -2,7 +2,7 @@
 
 namespace OMDbApi.Models
 {
-    public class Rating
+    public class Ratings
     {
         [JsonPropertyName("Source")]
         public string Source { get; set; }

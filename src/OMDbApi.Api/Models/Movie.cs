@@ -33,6 +33,6 @@ namespace OMDbApi.Models
         [JsonPropertyName("imdbRating")]
         public string imdbRating { get; set; }
         [JsonPropertyName("Ratings")]
-        public IEnumerable<Rating> Ratings { get; set; }
+        public IEnumerable<Ratings> Ratings { get; set; }
     }
 }
