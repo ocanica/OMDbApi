@@ -19,32 +19,6 @@ namespace OMDbApi.Api.Controllers
             _usersRepository = usersRepository;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var result = _usersRepository.GetAll();
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("desc")]
-        public IActionResult GetByDesc()
-        {
-            var result =  _usersRepository.GetAll()
-                .OrderByDescending(c => c.FirstName);
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("get/{name}")]
-        public async Task<IActionResult> Get(string name)
-        {
-            var result = await _usersRepository.GetById(name);
-            if (result == null)
-                return NotFound();
-            return Ok(result);
-        }
-
         [HttpPost]
         [Route("add")]
         public async Task Add()
@@ -86,11 +60,38 @@ namespace OMDbApi.Api.Controllers
             await _usersRepository.Add(hillary);
         }
 
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var result = _usersRepository.GetAll();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("get/{name}")]
+        public async Task<IActionResult> Get(string name)
+        {
+            var result = await _usersRepository.GetById(name);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
+        }
+
         [HttpPost]
         [Route("remove/{id}")]
         public async Task Remove(string id)
         {
             await _usersRepository.Remove(id);
         }
+
+        /*[HttpGet]
+        [Route("desc")]
+        public async Task<IActionResult> GetByDesc()
+        {
+            var result =  await _usersRepository.GetAll()
+                .OrderByDescending(c => c.FirstName)
+                .FirstOrDefaultAsync();
+            return Ok(result);
+        }*/
     }
 }

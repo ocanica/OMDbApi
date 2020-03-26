@@ -32,27 +32,24 @@ namespace OMDbApi.Api.Controllers
             var response = await client.GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t=batman");
             return Ok(JsonSerializer.Deserialize<Movie>(response));
         }
-        /*
+        
         //Get: api/Movie/Ghostbusters
         [HttpGet]
-        [Route("{title}")]
-        public async Task<IActionResult> GetMovie(string title)
+        [Route("{id}")]
+        public async Task<Movie> GetMovie(string id)
         {
             var configData = await _constants.omdbConfigData;
             var client = _httpClientFactory.CreateClient();
-            var response = await client.GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t={title}");
-            return Ok(JsonSerializer.Deserialize<Movie>(response));
-        }*/
+            var response = await client.GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t={id}");
+            return JsonSerializer.Deserialize<Movie>(response);
+        }
 
-        //Get: api/Movies/id
-        [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> GetMovie(string id)
+        [HttpPost]
+        [Route("add/{id}")]
+        public async Task AddMovie(string id)
         {
-            var result = await _moviesRepository.GetById(id);
-            if (result == null)
-                return NotFound();
-            return Ok(result);
+            var movie = await GetMovie(id);
+            await _moviesRepository.Add(movie);
         }
 
         //Get: api/Movie
