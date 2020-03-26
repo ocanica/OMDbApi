@@ -8,9 +8,9 @@ namespace OMDbApi.Api.Contracts
     public interface IGenericRepository<T>
         where T : class
     {
-        public Task<IEnumerable<T>> GetAll();
-        public Task<T> Get(string id);
-        public Task Add(T entity);
-        public void Remove(T entity);
+        Task<IEnumerable<T>> GetAll();
+        Task<T> GetById(object id);
+        Task Add(T entity);
+        Task Remove(object id);
     }
 }

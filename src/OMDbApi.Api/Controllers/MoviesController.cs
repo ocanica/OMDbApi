@@ -49,7 +49,7 @@ namespace OMDbApi.Api.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetMovie(string id)
         {
-            var result = await _moviesRepository.Get(id);
+            var result = await _moviesRepository.GetById(id);
             if (result == null)
                 return NotFound();
             return Ok(result);

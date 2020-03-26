@@ -10,7 +10,11 @@ namespace OMDbApi.Api.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid TransactionId { get; set; }
+        [Required]
+        [ForeignKey("User")]
         public string Username { get; set; }
+        [Required]
+        [ForeignKey("Movie")]
         public string IMDbId { get; set; }
         public DateTime DateId { get; set; }
     }

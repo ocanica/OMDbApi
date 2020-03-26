@@ -28,13 +28,13 @@ namespace OMDbApi.Api.Controllers
         [Route("get/{name}")]
         public async Task<IActionResult> Get(string name)
         {
-            var result = await _usersRepository.Get(name);
+            var result = await _usersRepository.GetById(name);
             if (result == null)
                 return NotFound();
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("add")]
         public async Task Add()
         {
@@ -65,12 +65,9 @@ namespace OMDbApi.Api.Controllers
 
         [HttpPost]
         [Route("remove/{id}")]
-        public void Remove(string id)
+        public async Task Remove(string id)
         {
-            // Temporary solution, will cause deadlock
-            var entity = _usersRepository.Get(id)
-                .GetAwaiter().GetResult();
-            _usersRepository.Remove(entity);
+            await _usersRepository.Remove(id);
         }
     }
 }

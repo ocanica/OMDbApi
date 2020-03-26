@@ -22,23 +22,24 @@ namespace OMDbApi.Api.Services
             return await _context.Movies.ToListAsync();
         }
 
-        public async Task<Movie> Get(string id)
+        public async Task<Movie> GetById(object id)
         {
             var movie = _context.Movies;
             return await movie
-                .FirstOrDefaultAsync(m => m.IMDbId == id);
+                .FirstOrDefaultAsync(m => m.IMDbId == id.ToString());
         }
 
         public async Task Add(Movie entity)
         {
             await _context.AddAsync(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Remove(Movie entity)
+        public async Task Remove(object id)
         {
+            var entity = await GetById(id);
             _context.RemoveRange(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

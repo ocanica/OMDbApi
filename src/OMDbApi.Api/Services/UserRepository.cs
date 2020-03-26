@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OMDbApi.Api.Services
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUsersRepository
     {
         private readonly OMDbContext _context;
 
@@ -22,22 +22,23 @@ namespace OMDbApi.Api.Services
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<User> Get(string id)
+        public async Task<User> GetById(object id)
         {
-            var user = _context.Users;
-            return await user.FirstOrDefaultAsync(u => u.FirstName == id);
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Username == id.ToString());
         }
 
         public async Task Add(User entity)
         {
             await _context.AddAsync(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Remove(User entity)
+        public async Task Remove(object id)
         {
+            var entity = await GetById(id);
             _context.RemoveRange(entity);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }
