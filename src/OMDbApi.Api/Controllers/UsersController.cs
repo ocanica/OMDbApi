@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OMDbApi.Api.Contracts;
 using OMDbApi.Api.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OMDbApi.Api.Controllers
@@ -18,9 +20,18 @@ namespace OMDbApi.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
-            var result = await _usersRepository.GetAll();
+            var result = _usersRepository.GetAll();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("desc")]
+        public IActionResult GetByDesc()
+        {
+            var result =  _usersRepository.GetAll()
+                .OrderByDescending(c => c.FirstName);
             return Ok(result);
         }
 
@@ -59,8 +70,20 @@ namespace OMDbApi.Api.Controllers
                 DateModified = DateTime.Now
             };
 
+            var hillary = new User
+            {
+                Username = "hillaryB",
+                Password = "$$$$$",
+                Email = "hillaryb@gmail.com",
+                FirstName = "Hillary",
+                LastName = "Banks",
+                DateRegistered = DateTime.Now,
+                DateModified = DateTime.Now
+            };
+
             await _usersRepository.Add(jamie);
             await _usersRepository.Add(axel);
+            await _usersRepository.Add(hillary);
         }
 
         [HttpPost]

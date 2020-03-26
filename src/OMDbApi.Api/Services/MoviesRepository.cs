@@ -4,6 +4,7 @@ using OMDbApi.Api.Data;
 using OMDbApi.Api.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OMDbApi.Api.Services
@@ -17,9 +18,9 @@ namespace OMDbApi.Api.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Movie>> GetAll()
+        public IQueryable<Movie> GetAll()
         {
-            return await _context.Movies.ToListAsync();
+            return _context.Set<Movie>().AsNoTracking();
         }
 
         public async Task<Movie> GetById(object id)

@@ -34,9 +34,9 @@ namespace OMDbApi.Api.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Transaction>> GetAll()
+        public IQueryable<Transaction> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Set<Transaction>().AsNoTracking();
         }
 
         public async Task Remove(object id)
