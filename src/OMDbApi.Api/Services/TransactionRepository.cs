@@ -43,5 +43,10 @@ namespace OMDbApi.Api.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<Transaction> Find(object predicate)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

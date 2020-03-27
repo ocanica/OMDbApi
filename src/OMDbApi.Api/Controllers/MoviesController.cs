@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using OMDbApi.Api.Contracts;
 using OMDbApi.Api.Models;
+using System.Linq;
 
 namespace OMDbApi.Api.Controllers
 {
@@ -13,68 +14,36 @@ namespace OMDbApi.Api.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly IGenericRepository<Movie> _moviesRepository;
-        private readonly IHttpClientFactory _httpClientFactory;
-        private readonly Constants _constants;
 
-        public MoviesController(IGenericRepository<Movie> moviesRepository, IHttpClientFactory httpClientFactory)
+        public MoviesController(IGenericRepository<Movie> moviesRepository)
         {
             _moviesRepository = moviesRepository;
-            _httpClientFactory = httpClientFactory;
-            _constants = new Constants();
         }
 
         //Get: api/Movies
         [HttpGet]
-        public async Task<IActionResult> GetMovies()
+        public IActionResult GetMovies()
         {
-            var configData = await _constants.omdbConfigData;
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t=batman");
-            return Ok(JsonSerializer.Deserialize<Movie>(response));
+            var result = _moviesRepository.GetAll()
+                .OrderBy(c => c.Title);
+            return Ok(result);
         }
-        
-        //Get: api/Movie/Ghostbusters
+
+        //Get: api/Movies/Ghostbusters
         [HttpGet]
         [Route("{id}")]
-        public async Task<Movie> GetMovie(string id)
+        public async Task<IActionResult> GetMovie(string id)
         {
-            var configData = await _constants.omdbConfigData;
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t={id}");
-            return JsonSerializer.Deserialize<Movie>(response);
+            var result = await _moviesRepository.GetById(id);
+            return Ok(result);
         }
 
         [HttpPost]
         [Route("add/{id}")]
         public async Task AddMovie(string id)
         {
-            var movie = await GetMovie(id);
+            var movie = await _moviesRepository.Find(id);
             await _moviesRepository.Add(movie);
         }
-
-        //Get: api/Movie
-        /*[HttpGet]
-
-        public async Task<IActionResult> GetMovie()
-        {
-            var client = _httpClientFactory.CreateClient("OMDb");
-            var response = await client.GetStringAsync("");
-            return Ok(JsonSerializer.Deserialize<Movie>(response));
-        }*/
-
-        //Get: api/Movies
-        /*[HttpGet]
-        public async Task<IActionResult> GetMovies()
-        {
-            var result = await _moviesRepository.GetMoviesAsync();
-            if (result == null)
-                return NotFound();
-
-            return Ok(result);
-        }*/
-
-
-
-        //Post: api/Movie/
     }
 }

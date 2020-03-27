@@ -41,5 +41,10 @@ namespace OMDbApi.Api.Services
             _context.RemoveRange(entity);
             await _context.SaveChangesAsync();
         }
+
+        public Task<User> Find(object predicate)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

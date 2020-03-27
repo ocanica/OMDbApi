@@ -13,10 +13,18 @@ namespace OMDbApi.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IGenericRepository<User> _usersRepository;
+        private readonly IGenericRepository<Movie> _moviesRepository;
+        private readonly IGenericRepository<Transaction> _transactionsRepository;
+        private readonly IGenericRepository<Rating> _ratingsRepository;
 
-        public UsersController(IGenericRepository<User> usersRepository)
+        public UsersController(
+            IGenericRepository<User> usersRepository, IGenericRepository<Movie> movieRepository,
+            IGenericRepository<Transaction> transactionRepository, IGenericRepository<Rating> ratingRepository)
         {
             _usersRepository = usersRepository;
+            _moviesRepository = movieRepository;
+            _transactionsRepository = transactionRepository;
+            _ratingsRepository = ratingRepository;
         }
 
         [HttpPost]
@@ -63,9 +71,17 @@ namespace OMDbApi.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var result = _usersRepository.GetAll();
+            var result = _usersRepository.GetAll()
+                .OrderBy(c => c.FirstName);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("addmovie/{username}/{movieId}")]
+        public async Task RateMovie()
+        {
+
+        } 
 
         [HttpGet]
         [Route("get/{name}")]
@@ -83,15 +99,5 @@ namespace OMDbApi.Api.Controllers
         {
             await _usersRepository.Remove(id);
         }
-
-        /*[HttpGet]
-        [Route("desc")]
-        public async Task<IActionResult> GetByDesc()
-        {
-            var result =  await _usersRepository.GetAll()
-                .OrderByDescending(c => c.FirstName)
-                .FirstOrDefaultAsync();
-            return Ok(result);
-        }*/
     }
 }
