@@ -15,16 +15,16 @@ namespace OMDbApi.Api.Controllers
         private readonly IGenericRepository<User> _usersRepository;
         private readonly IGenericRepository<Movie> _moviesRepository;
         private readonly IGenericRepository<Transaction> _transactionsRepository;
-        private readonly IGenericRepository<Rating> _ratingsRepository;
+        //private readonly IGenericRepository<Rating> _ratingsRepository;
 
         public UsersController(
             IGenericRepository<User> usersRepository, IGenericRepository<Movie> movieRepository,
-            IGenericRepository<Transaction> transactionRepository, IGenericRepository<Rating> ratingRepository)
+            IGenericRepository<Transaction> transactionRepository)
         {
             _usersRepository = usersRepository;
             _moviesRepository = movieRepository;
             _transactionsRepository = transactionRepository;
-            _ratingsRepository = ratingRepository;
+            //_ratingsRepository = ratingRepository;
         }
 
         [HttpPost]
@@ -77,10 +77,18 @@ namespace OMDbApi.Api.Controllers
         }
 
         [HttpPost]
-        [Route("addmovie/{username}/{movieId}")]
-        public async Task RateMovie()
+        [Route("addmovie/{username}/{title}")]
+        public async Task RateMovie(string username, string title)
         {
-
+            var user = await _usersRepository.GetById(username);
+            var movie = await _moviesRepository.Find(title);
+            var transaction = new Transaction
+            {
+                Username = user.Username,
+                IMDbId = movie.IMDbId
+            };
+            await _transactionsRepository.Add(transaction);
+            await _moviesRepository.Add(movie);
         } 
 
         [HttpGet]

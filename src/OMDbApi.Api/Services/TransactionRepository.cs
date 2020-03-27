@@ -20,7 +20,9 @@ namespace OMDbApi.Api.Services
 
         public async Task Add(Transaction entity)
         {
-            throw new NotImplementedException();
+            entity.DateId = DateTime.Now;
+            await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         /*public async Task AddMultiple(User user, Movie movie)
@@ -45,6 +47,11 @@ namespace OMDbApi.Api.Services
         }
 
         public Task<Transaction> Find(object predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Update(Transaction entity)
         {
             throw new NotImplementedException();
         }

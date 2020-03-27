@@ -1,4 +1,5 @@
 ﻿using OMDbApi.Api.Models;
+using System.Threading.Tasks;
 
 namespace OMDbApi.Api.Contracts
 {

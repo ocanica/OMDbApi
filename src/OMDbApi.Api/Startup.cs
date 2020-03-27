@@ -30,6 +30,7 @@ namespace OMDbApi.Api
             services.AddHttpClient();
             services.AddScoped<IGenericRepository<Movie>, MoviesRepository>();
             services.AddScoped<IGenericRepository<User>, UserRepository>();
+            services.AddScoped<IGenericRepository<Transaction>, TransactionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

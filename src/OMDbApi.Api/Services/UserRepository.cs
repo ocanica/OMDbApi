@@ -46,5 +46,12 @@ namespace OMDbApi.Api.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task Update(User entity)
+        {
+            entity.DateModified = DateTime.Now;
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
     }
 }
