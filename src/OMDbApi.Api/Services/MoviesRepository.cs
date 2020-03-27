@@ -15,12 +15,18 @@ namespace OMDbApi.Api.Services
     {
         private readonly OMDbContext _context;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IUsersRepository _usersRepository;
+        private readonly ITransactionRepository _transactionsRepository;
         private readonly Constants _constants;
 
-        public MoviesRepository(OMDbContext context, IHttpClientFactory httpClientFactory)
+        public MoviesRepository(
+            OMDbContext context, IHttpClientFactory httpClientFactory,
+            IUsersRepository usersRepository, ITransactionRepository transactionsRepository)
         {
             _context = context;
             _httpClientFactory = httpClientFactory;
+            _usersRepository = usersRepository;
+            _transactionsRepository = transactionsRepository;
             _constants = new Constants();
         }
 
@@ -42,6 +48,39 @@ namespace OMDbApi.Api.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task Add(string username, string title)
+        {
+            var user = await _usersRepository.GetById(username);
+            var movie = await Find(title);
+            user.DateModified = DateTime.Now;
+            var omdbTransaction = new Transaction
+            {
+                Username = user.Username,
+                IMDbId = movie.IMDbId
+            };
+
+            // If the movie already exists, exit
+            if (_context.Movies.Any(c => c.IMDbId == movie.IMDbId))
+                return;
+
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    await _transactionsRepository.Add(omdbTransaction);
+                    await Add(movie);
+                    await _usersRepository.Update(user);
+                    await _context.SaveChangesAsync();
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
         public async Task<Movie> Find(object id)
         {
             var configData = await _constants.omdbConfigData;
@@ -54,6 +93,13 @@ namespace OMDbApi.Api.Services
         {
             var entity = await GetById(id);
             _context.RemoveRange(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        // Change entity state
+        public async Task Save(Movie entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 

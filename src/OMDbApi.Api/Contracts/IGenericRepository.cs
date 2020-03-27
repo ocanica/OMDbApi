@@ -14,5 +14,6 @@ namespace OMDbApi.Api.Contracts
         Task Add(T entity);
         Task Remove(object id);
         Task Update(T entity);
+        Task Save(T entity);
     }
 }

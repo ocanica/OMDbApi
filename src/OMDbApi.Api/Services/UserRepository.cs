@@ -50,8 +50,13 @@ namespace OMDbApi.Api.Services
         public async Task Update(User entity)
         {
             entity.DateModified = DateTime.Now;
-            _context.Entry(entity).State = EntityState.Modified;
+            _context.Entry(entity).Property(c => c.DateModified).IsModified = true;
             await _context.SaveChangesAsync();
+        }
+
+        public Task Save(User entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace OMDbApi.Api.Contracts
 {
-    interface IUsersRepository : IGenericRepository<User>
+    public interface IUsersRepository : IGenericRepository<User>
     {
     }
 }

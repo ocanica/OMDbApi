@@ -13,7 +13,7 @@ namespace OMDbApi.Api.Services
     {
         private readonly OMDbContext _context;
 
-        public TransactionRepository(OMDbContext context, IGenericRepository<User> userRepository, IGenericRepository<Movie> moviesRepository)
+        public TransactionRepository(OMDbContext context)
         {
             _context = context;
         }
@@ -52,6 +52,11 @@ namespace OMDbApi.Api.Services
         }
 
         public Task Update(Transaction entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Save(Transaction entity)
         {
             throw new NotImplementedException();
         }

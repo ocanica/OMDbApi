@@ -13,9 +13,9 @@ namespace OMDbApi.Api.Controllers
     [Route("api/[controller]")]
     public class MoviesController : ControllerBase
     {
-        private readonly IGenericRepository<Movie> _moviesRepository;
+        private readonly IMoviesRepository _moviesRepository;
 
-        public MoviesController(IGenericRepository<Movie> moviesRepository)
+        public MoviesController(IMoviesRepository moviesRepository)
         {
             _moviesRepository = moviesRepository;
         }
