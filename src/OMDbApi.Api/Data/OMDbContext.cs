@@ -18,7 +18,7 @@ namespace OMDbApi.Api.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Rating>()
-                .HasKey(c => new { c.UserName, c.IMDbId });
+                .HasKey(c => new { c.UserId, c.IMDbId });
         }
     }
 }

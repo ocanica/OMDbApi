@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using OMDbApi.Api.Contracts;
 using OMDbApi.Api.Models;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -46,15 +44,32 @@ namespace OMDbApi.Api.Controllers
         }
 
         [HttpPost]
-        [Route("addmovie/{userId}/{title}")]
-        public async Task AddMovie(int id, string title)
+        [Route("add")]
+        public async Task AddMovie([FromQuery] int id, [FromQuery] string title)
         {
             await _moviesRepository.Add(id, title);
-        } 
+        }
+
+        [HttpPost]
+        [Route("rate")]
+        public async Task RateMovie([FromQuery] int id, [FromQuery] int rating)
+        {
+
+        }
+        
+        [HttpPut]
+        [Route("update")]
+        public async Task UpdateUser([FromQuery] int id, User user)
+        {
+            /*var entity = await _usersRepository.GetById(id);
+            entity.FirstName = user.FirstName;
+            entity.LastName = user.LastName;
+            await _usersRepository.Update(entity);*/
+        }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task Remove(string id)
+        public async Task Remove(int id)
         {
             await _usersRepository.Remove(id);
         }

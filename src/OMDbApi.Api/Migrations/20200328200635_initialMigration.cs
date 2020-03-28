@@ -33,13 +33,13 @@ namespace OMDbApi.Api.Migrations
                 name: "Ratings",
                 columns: table => new
                 {
-                    UserName = table.Column<string>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
                     IMDbId = table.Column<string>(nullable: false),
                     MovieRating = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ratings", x => new { x.UserName, x.IMDbId });
+                    table.PrimaryKey("PK_Ratings", x => new { x.UserId, x.IMDbId });
                 });
 
             migrationBuilder.CreateTable(

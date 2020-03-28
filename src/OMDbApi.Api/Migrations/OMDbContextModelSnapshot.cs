@@ -64,8 +64,8 @@ namespace OMDbApi.Api.Migrations
 
             modelBuilder.Entity("OMDbApi.Api.Models.Rating", b =>
                 {
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("IMDbId")
                         .HasColumnType("nvarchar(450)");
@@ -73,7 +73,7 @@ namespace OMDbApi.Api.Migrations
                     b.Property<int?>("MovieRating")
                         .HasColumnType("int");
 
-                    b.HasKey("UserName", "IMDbId");
+                    b.HasKey("UserId", "IMDbId");
 
                     b.ToTable("Ratings");
                 });

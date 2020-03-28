@@ -10,7 +10,7 @@ using OMDbApi.Api.Data;
 namespace OMDbApi.Api.Migrations
 {
     [DbContext(typeof(OMDbContext))]
-    [Migration("20200328151309_initialMigration")]
+    [Migration("20200328200635_initialMigration")]
     partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,8 +66,8 @@ namespace OMDbApi.Api.Migrations
 
             modelBuilder.Entity("OMDbApi.Api.Models.Rating", b =>
                 {
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("IMDbId")
                         .HasColumnType("nvarchar(450)");
@@ -75,7 +75,7 @@ namespace OMDbApi.Api.Migrations
                     b.Property<int?>("MovieRating")
                         .HasColumnType("int");
 
-                    b.HasKey("UserName", "IMDbId");
+                    b.HasKey("UserId", "IMDbId");
 
                     b.ToTable("Ratings");
                 });

@@ -60,6 +60,11 @@ namespace OMDbApi.Api.Services
         {
             var user = await _usersRepository.GetById(id);
             var movie = await Find(title);
+            var rating = new Rating()
+            {
+                UserId = user.UserId,
+                IMDbId = movie.IMDbId
+            };
             var omdbTransaction = new Transaction
             {
                 Username = user.Username,
@@ -74,8 +79,9 @@ namespace OMDbApi.Api.Services
             {
                 try
                 {
-                    await _transactionsRepository.Add(omdbTransaction);
                     await Add(movie);
+                    await _context.AddAsync(rating);
+                    await _transactionsRepository.Add(omdbTransaction);
                     await _usersRepository.Update(user);
                     await _context.SaveChangesAsync();
 
@@ -116,6 +122,11 @@ namespace OMDbApi.Api.Services
         }
 
         public Task Update(Movie entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Rate(int rating)
         {
             throw new NotImplementedException();
         }

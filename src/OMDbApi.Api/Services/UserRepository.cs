@@ -35,6 +35,12 @@ namespace OMDbApi.Api.Services
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
+        public async Task Remove(int id)
+        {
+            var entity = await GetById(id);
+            _context.RemoveRange(entity);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task Remove(object id)
         {
@@ -60,11 +66,6 @@ namespace OMDbApi.Api.Services
         }
 
         public Task Save(User entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Remove(int id)
         {
             throw new NotImplementedException();
         }
