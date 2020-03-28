@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using OMDbApi.Api.Contracts;
 using OMDbApi.Api.Data;
 using OMDbApi.Api.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
@@ -38,8 +40,13 @@ namespace OMDbApi.Api.Services
         public async Task<Movie> GetById(object id)
         {
             var movie = _context.Movies;
-            return await movie
+            var result = await movie
                 .FirstOrDefaultAsync(m => m.IMDbId == id.ToString());
+
+            if (result == null)
+                throw new ArgumentException($"no record of {id} can be found. Ensure IMDb ID is correct", nameof(id));
+
+            return result;
         }
 
         public async Task Add(Movie entity)
@@ -48,6 +55,7 @@ namespace OMDbApi.Api.Services
             await _context.SaveChangesAsync();
         }
 
+        // User adds movie by creating a transaction
         public async Task Add(string username, string title)
         {
             var user = await _usersRepository.GetById(username);
@@ -74,9 +82,14 @@ namespace OMDbApi.Api.Services
 
                     transaction.Commit();
                 }
-                catch (Exception)
+                catch (DbUpdateException  e)
                 {
-
+                    // var sqlException = e.GetBaseException();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    throw;
                 }
             }
         }
