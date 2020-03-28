@@ -44,7 +44,7 @@ namespace OMDbApi.Api.Services
                 .FirstOrDefaultAsync(m => m.IMDbId == id.ToString());
 
             if (result == null)
-                throw new ArgumentException($"no record of {id} can be found. Ensure IMDb ID is correct", nameof(id));
+                throw new ArgumentException($"No record of {id} can be found. Ensure IMDb ID is correct", nameof(id));
 
             return result;
         }
@@ -56,11 +56,10 @@ namespace OMDbApi.Api.Services
         }
 
         // User adds movie by creating a transaction
-        public async Task Add(string username, string title)
+        public async Task Add(int id, string title)
         {
-            var user = await _usersRepository.GetById(username);
+            var user = await _usersRepository.GetById(id);
             var movie = await Find(title);
-            user.DateModified = DateTime.Now;
             var omdbTransaction = new Transaction
             {
                 Username = user.Username,

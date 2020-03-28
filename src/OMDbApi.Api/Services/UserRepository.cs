@@ -22,15 +22,16 @@ namespace OMDbApi.Api.Services
         {
             return _context.Set<User>().AsNoTracking();
         }
-
-        public async Task<User> GetById(object id)
+        public async Task<User> GetById(int id)
         {
             return await _context.Users
-                .FirstOrDefaultAsync(u => u.Username == id.ToString());
+                .FirstOrDefaultAsync(u => u.UserId == id);
         }
 
         public async Task Add(User entity)
         {
+            entity.DateRegistered = DateTime.Now;
+            entity.DateModified = DateTime.Now;
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
@@ -40,6 +41,10 @@ namespace OMDbApi.Api.Services
             var entity = await GetById(id);
             _context.RemoveRange(entity);
             await _context.SaveChangesAsync();
+        }
+        public async Task<User> GetById(object id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<User> Find(object predicate)
@@ -55,6 +60,11 @@ namespace OMDbApi.Api.Services
         }
 
         public Task Save(User entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Remove(int id)
         {
             throw new NotImplementedException();
         }

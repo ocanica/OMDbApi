@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OMDbApi.Api.Migrations
 {
-    public partial class initial : Migration
+    public partial class initialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,8 +47,8 @@ namespace OMDbApi.Api.Migrations
                 columns: table => new
                 {
                     TransactionId = table.Column<Guid>(nullable: false),
-                    Username = table.Column<string>(nullable: true),
-                    IMDbId = table.Column<string>(nullable: true),
+                    Username = table.Column<string>(nullable: false),
+                    IMDbId = table.Column<string>(nullable: false),
                     DateId = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -60,7 +60,9 @@ namespace OMDbApi.Api.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Username = table.Column<string>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
@@ -70,7 +72,7 @@ namespace OMDbApi.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Username);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
         }
 

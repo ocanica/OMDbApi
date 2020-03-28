@@ -10,8 +10,8 @@ using OMDbApi.Api.Data;
 namespace OMDbApi.Api.Migrations
 {
     [DbContext(typeof(OMDbContext))]
-    [Migration("20200326153759_AddForeignKeys")]
-    partial class AddForeignKeys
+    [Migration("20200328151309_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,8 +104,10 @@ namespace OMDbApi.Api.Migrations
 
             modelBuilder.Entity("OMDbApi.Api.Models.User", b =>
                 {
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime2");
@@ -125,7 +127,10 @@ namespace OMDbApi.Api.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Username");
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
