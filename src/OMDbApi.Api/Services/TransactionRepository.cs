@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using OMDbApi.Api.Models;
 using OMDbApi.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace OMDbApi.Api.Services
 {
@@ -24,12 +25,6 @@ namespace OMDbApi.Api.Services
             await _context.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
-
-        /*public async Task AddMultiple(User user, Movie movie)
-        {
-            var transaction = _context.Movies;
-            await transaction.FirstOrDefaultAsync(m => m.Equals == )
-        }*/
 
         public Task<Transaction> GetById(object id)
         {
@@ -60,5 +55,21 @@ namespace OMDbApi.Api.Services
         {
             throw new NotImplementedException();
         }
+
+        // Attempt at abstracting and encapsulating transaction logic from the other repos
+        public async Task Transact(int userId, string imdbId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Transact(int userId, string imdbId, int rating)
+        {
+            throw new NotImplementedException();
+        }
+
+        //public Transaction Transact(int userId, string imdbId)
+        //{
+        //    return new Transaction { UserId = userId, IMDbId = imdbId };
+        //}
     }
 }

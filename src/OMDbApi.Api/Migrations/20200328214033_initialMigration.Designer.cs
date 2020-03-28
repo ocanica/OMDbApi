@@ -10,7 +10,7 @@ using OMDbApi.Api.Data;
 namespace OMDbApi.Api.Migrations
 {
     [DbContext(typeof(OMDbContext))]
-    [Migration("20200328200635_initialMigration")]
+    [Migration("20200328214033_initialMigration")]
     partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,9 +93,8 @@ namespace OMDbApi.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("TransactionId");
 

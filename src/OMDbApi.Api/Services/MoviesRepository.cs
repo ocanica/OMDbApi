@@ -18,17 +18,16 @@ namespace OMDbApi.Api.Services
         private readonly OMDbContext _context;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IUsersRepository _usersRepository;
-        private readonly ITransactionRepository _transactionsRepository;
+        private readonly ITransactionRepository _transactionRepository;
         private readonly Constants _constants;
 
-        public MoviesRepository(
-            OMDbContext context, IHttpClientFactory httpClientFactory,
-            IUsersRepository usersRepository, ITransactionRepository transactionsRepository)
+        public MoviesRepository(OMDbContext context, IHttpClientFactory httpClientFactory,
+            IUsersRepository usersRepository, ITransactionRepository transactionRepository)
         {
             _context = context;
             _httpClientFactory = httpClientFactory;
             _usersRepository = usersRepository;
-            _transactionsRepository = transactionsRepository;
+            _transactionRepository = transactionRepository;
             _constants = new Constants();
         }
 
@@ -56,38 +55,37 @@ namespace OMDbApi.Api.Services
         }
 
         // User adds movie by creating a transaction
-        public async Task Add(int id, string title)
+        public async Task Add(int userId, string title)
         {
-            var user = await _usersRepository.GetById(id);
+            var user = await _usersRepository.GetById(userId);
             var movie = await Find(title);
             var rating = new Rating()
             {
                 UserId = user.UserId,
                 IMDbId = movie.IMDbId
             };
-            var omdbTransaction = new Transaction
+            var transction = new Transaction()
             {
-                Username = user.Username,
-                IMDbId = movie.IMDbId
+                UserId = userId,
+                IMDbId = movie.imdbRating
             };
 
-            // If the movie already exists, exit
             if (_context.Movies.Any(c => c.IMDbId == movie.IMDbId))
                 return;
 
-            using (var transaction = _context.Database.BeginTransaction())
+            using (var transact = _context.Database.BeginTransaction())
             {
                 try
                 {
                     await Add(movie);
                     await _context.AddAsync(rating);
-                    await _transactionsRepository.Add(omdbTransaction);
+                    await _transactionRepository.Add(transction);
                     await _usersRepository.Update(user);
                     await _context.SaveChangesAsync();
 
-                    transaction.Commit();
+                    transact.Commit();
                 }
-                catch (DbUpdateException  e)
+                catch (DbUpdateException e)
                 {
                     // var sqlException = e.GetBaseException();
                 }
@@ -105,6 +103,20 @@ namespace OMDbApi.Api.Services
             var client = _httpClientFactory.CreateClient();
             var response = await client.GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t={id.ToString()}");
             return JsonSerializer.Deserialize<Movie>(response);
+        }
+        public async Task Rate(int id, string imdbId, int rating)
+        {
+            /*var user = await _usersRepository.GetById(id);
+            var movie = await GetById(imdbId);
+            var transact = _transactionsRepository.Transact(user.UserId, movie.IMDbId);
+
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+
+                }
+            }*/
         }
 
         public async Task Remove(object id)
@@ -126,9 +138,5 @@ namespace OMDbApi.Api.Services
             throw new NotImplementedException();
         }
 
-        public Task Rate(int rating)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

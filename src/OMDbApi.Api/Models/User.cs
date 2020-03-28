@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OMDbApi.Api.Models
 {
-    public class User : IUser
+    public class User
     {
         [Key]
         public int UserId { get; set; }

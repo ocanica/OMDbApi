@@ -5,14 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OMDbApi.Api.Models
 {
-    public class Transaction : ITransaction
+    public class Transaction
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid TransactionId { get; set; }
         [Required]
         [ForeignKey("User")]
-        public string Username { get; set; }
+        public int UserId { get; set; }
         [Required]
         [ForeignKey("Movie")]
         public string IMDbId { get; set; }

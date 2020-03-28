@@ -47,7 +47,7 @@ namespace OMDbApi.Api.Migrations
                 columns: table => new
                 {
                     TransactionId = table.Column<Guid>(nullable: false),
-                    Username = table.Column<string>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
                     IMDbId = table.Column<string>(nullable: false),
                     DateId = table.Column<DateTime>(nullable: false)
                 },
