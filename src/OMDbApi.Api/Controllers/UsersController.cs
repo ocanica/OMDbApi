@@ -12,11 +12,13 @@ namespace OMDbApi.Api.Controllers
     {
         private readonly IUsersRepository _usersRepository;
         private readonly IMoviesRepository _moviesRepository;
+        private readonly ITransactionRepository _transactionRepository;
 
-        public UsersController(IUsersRepository usersRepository, IMoviesRepository movieRepository)
+        public UsersController(IUsersRepository usersRepository, IMoviesRepository movieRepository, ITransactionRepository transactionRepository)
         {
             _usersRepository = usersRepository;
             _moviesRepository = movieRepository;
+            _transactionRepository = transactionRepository;
         }
 
         [HttpGet]
@@ -45,27 +47,39 @@ namespace OMDbApi.Api.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task AddMovie([FromQuery] int id, [FromQuery] string title)
+        public async Task PostMovie([FromQuery] int id, [FromQuery] string title)
         {
-            await _moviesRepository.Add(id, title);
+            var user = await _usersRepository.GetById(id);
+            var movie = await _moviesRepository.Find(title);
+            var rating = new Rating()
+            {
+                UserId = user.UserId,
+                IMDbId = movie.IMDbId
+            };
+            
+            if (_moviesRepository.DoesExist(movie))
+                return;
+
+            await _transactionRepository
+                .Transact(_usersRepository, _moviesRepository, user, movie, rating);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("rate")]
-        public async Task RateMovie([FromQuery] int id, [FromQuery] int rating)
+        public Task RateMovie([FromQuery] int id, [FromQuery] int rating)
         {
 
-        }
+        }*/
         
-        [HttpPut]
+        /*[HttpPut]
         [Route("update")]
         public async Task UpdateUser([FromQuery] int id, User user)
         {
-            /*var entity = await _usersRepository.GetById(id);
+            var entity = await _usersRepository.GetById(id);
             entity.FirstName = user.FirstName;
             entity.LastName = user.LastName;
-            await _usersRepository.Update(entity);*/
-        }
+            await _usersRepository.Update(entity);
+        }*/
 
         [HttpDelete]
         [Route("{id}")]

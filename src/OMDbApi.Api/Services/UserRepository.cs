@@ -48,7 +48,7 @@ namespace OMDbApi.Api.Services
             _context.RemoveRange(entity);
             await _context.SaveChangesAsync();
         }
-        public async Task<User> GetById(object id)
+        public Task<User> GetById(object id)
         {
             throw new NotImplementedException();
         }
@@ -66,6 +66,11 @@ namespace OMDbApi.Api.Services
         }
 
         public Task Save(User entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DoesExist(User enity)
         {
             throw new NotImplementedException();
         }

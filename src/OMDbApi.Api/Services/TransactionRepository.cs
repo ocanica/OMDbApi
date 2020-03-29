@@ -36,7 +36,7 @@ namespace OMDbApi.Api.Services
             return _context.Set<Transaction>().AsNoTracking();
         }
 
-        public async Task Remove(object id)
+        public Task Remove(object id)
         {
             throw new NotImplementedException();
         }
@@ -56,20 +56,41 @@ namespace OMDbApi.Api.Services
             throw new NotImplementedException();
         }
 
-        // Attempt at abstracting and encapsulating transaction logic from the other repos
-        public async Task Transact(int userId, string imdbId)
+     
+
+        public async Task Transact(IGenericRepository<User> users, IGenericRepository<Movie> movies, User user, Movie movie, Rating rating)
+        {
+            var transaction = CreateTransaction(user, movie);
+            using var transact = _context.Database.BeginTransaction();
+            try
+            {
+                await movies.Add(movie);
+                await users.Update(user);
+                await Add(transaction);
+                await _context.AddAsync(rating);
+                await _context.SaveChangesAsync();
+
+                transact.Commit();
+            }
+            catch (DbUpdateException e)
+            {
+                // var sqlException = e.GetBaseException();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                throw;
+            }
+        }
+
+        public Transaction CreateTransaction(User user, Movie movie)
+        {
+            return new Transaction { UserId = user.UserId, IMDbId = movie.IMDbId, DateId = DateTime.Now };
+        }
+
+        public bool DoesExist(Transaction enity)
         {
             throw new NotImplementedException();
         }
-
-        public Task Transact(int userId, string imdbId, int rating)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public Transaction Transact(int userId, string imdbId)
-        //{
-        //    return new Transaction { UserId = userId, IMDbId = imdbId };
-        //}
     }
 }
