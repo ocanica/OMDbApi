@@ -12,12 +12,15 @@ namespace OMDbApi.Api.Controllers
     {
         private readonly IUsersRepository _usersRepository;
         private readonly IMoviesRepository _moviesRepository;
+        private readonly IRatingsRepository _ratingsRepository;
         private readonly ITransactionRepository _transactionRepository;
 
-        public UsersController(IUsersRepository usersRepository, IMoviesRepository movieRepository, ITransactionRepository transactionRepository)
+        public UsersController(IUsersRepository usersRepository, IMoviesRepository movieRepository, 
+            IRatingsRepository ratingsRepository, ITransactionRepository transactionRepository)
         {
             _usersRepository = usersRepository;
             _moviesRepository = movieRepository;
+            _ratingsRepository = ratingsRepository;
             _transactionRepository = transactionRepository;
         }
 
@@ -64,14 +67,20 @@ namespace OMDbApi.Api.Controllers
                 .Transact(_usersRepository, _moviesRepository, user, movie, rating);
         }
 
-        /*[HttpPost]
+        [HttpPost]
         [Route("rate")]
-        public Task RateMovie([FromQuery] int id, [FromQuery] int rating)
+        public async Task RateMovie([FromQuery] int id, [FromQuery] string title, [FromQuery] int rating)
         {
+            var user = await _usersRepository.GetById(id);
+            var movie = await _moviesRepository.Find(title);
+            var movieRating = await _ratingsRepository.Get(id, title);
+            movieRating.MovieRating = rating;
 
-        }*/
+            await _transactionRepository
+                .Transact(_usersRepository, _moviesRepository, _ratingsRepository, user, movie, movieRating);
+        }
         
-        /*[HttpPut]
+        [HttpPut]
         [Route("update")]
         public async Task UpdateUser([FromQuery] int id, User user)
         {
@@ -79,7 +88,7 @@ namespace OMDbApi.Api.Controllers
             entity.FirstName = user.FirstName;
             entity.LastName = user.LastName;
             await _usersRepository.Update(entity);
-        }*/
+        }
 
         [HttpDelete]
         [Route("{id}")]

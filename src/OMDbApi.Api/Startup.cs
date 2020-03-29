@@ -30,6 +30,7 @@ namespace OMDbApi.Api
             services.AddHttpClient();
             services.AddScoped<IMoviesRepository, MoviesRepository>();
             services.AddScoped<IUsersRepository, UserRepository>();
+            services.AddScoped<IRatingsRepository, RatingsRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
         }
 

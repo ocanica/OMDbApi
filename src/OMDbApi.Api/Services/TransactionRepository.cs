@@ -56,8 +56,6 @@ namespace OMDbApi.Api.Services
             throw new NotImplementedException();
         }
 
-     
-
         public async Task Transact(IGenericRepository<User> users, IGenericRepository<Movie> movies, User user, Movie movie, Rating rating)
         {
             var transaction = CreateTransaction(user, movie);
@@ -65,6 +63,31 @@ namespace OMDbApi.Api.Services
             try
             {
                 await movies.Add(movie);
+                await users.Update(user);
+                await Add(transaction);
+                await _context.AddAsync(rating);
+                await _context.SaveChangesAsync();
+
+                transact.Commit();
+            }
+            catch (DbUpdateException e)
+            {
+                // var sqlException = e.GetBaseException();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                throw;
+            }
+        }
+
+        public async Task Transact(IGenericRepository<User> users, IGenericRepository<Movie> movies, 
+            IRatingsRepository ratings, User user, Movie movie, Rating rating)
+        {
+            var transaction = CreateTransaction(user, movie);
+            using var transact = _context.Database.BeginTransaction();
+            try
+            {
                 await users.Update(user);
                 await Add(transaction);
                 await _context.AddAsync(rating);
