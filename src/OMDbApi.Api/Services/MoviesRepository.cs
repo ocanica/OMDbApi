@@ -49,47 +49,6 @@ namespace OMDbApi.Api.Services
             await _context.SaveChangesAsync();
         }
 
-        //// User adds movie by creating a transaction
-        //public async Task Add(int userId, string title)
-        //{
-        //    var user = await _usersRepository.GetById(userId);
-        //    var movie = await Find(title);
-        //    var rating = new Rating()
-        //    {
-        //        UserId = user.UserId,
-        //        IMDbId = movie.IMDbId
-        //    };
-        //    var transction = new Transaction()
-        //    {
-        //        UserId = userId,
-        //        IMDbId = movie.imdbRating
-        //    };
-
-        //    if (_context.Movies.Any(c => c.IMDbId == movie.IMDbId))
-        //        return;
-
-        //    using var transact = _context.Database.BeginTransaction();
-        //    try
-        //    {
-        //        await Add(movie);
-        //        await _context.AddAsync(rating);
-        //        await _transactionRepository.Add(transction);
-        //        await _usersRepository.Update(user);
-        //        await _context.SaveChangesAsync();
-
-        //        transact.Commit();
-        //    }
-        //    catch (DbUpdateException e)
-        //    {
-        //        // var sqlException = e.GetBaseException();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Debug.WriteLine(e.Message);
-        //        throw;
-        //    }
-        //}
-
         public async Task<Movie> Find(object id)
         {
             var configData = await _constants.omdbConfigData;
@@ -128,7 +87,7 @@ namespace OMDbApi.Api.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task Update(Movie entity)
+        public void Update(Movie entity)
         {
             throw new NotImplementedException();
         }

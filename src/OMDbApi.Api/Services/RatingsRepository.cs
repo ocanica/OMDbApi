@@ -4,6 +4,7 @@ using OMDbApi.Api.Data;
 using OMDbApi.Api.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,16 +18,24 @@ namespace OMDbApi.Api.Services
             _context = context;
         }
 
-        public async Task Add(Rating rating)
+        public void Update(Rating rating)
         {
-            await _context.AddAsync(rating);
-            await _context.SaveChangesAsync();
+            _context.Update(rating);
         }
 
         public async Task<Rating> Get(int userId, string movieId)
         {
-            var result = await _context.Ratings
-                .FirstOrDefaultAsync(c => c.UserId == userId && c.IMDbId == movieId);
+            Rating result = null;
+            try
+            {
+                result = await _context.Ratings
+                    .FirstOrDefaultAsync(c => c.UserId == userId && c.IMDbId == movieId);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                throw;
+            }
             return result;
         }
     }

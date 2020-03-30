@@ -43,7 +43,7 @@ namespace OMDbApi.Api.Controllers
         }
 
         [HttpPost]
-        public async Task PostUser(User user)
+        public async Task PostUser([FromBody] User user)
         {
             await _usersRepository.Add(user);
         }
@@ -67,13 +67,13 @@ namespace OMDbApi.Api.Controllers
                 .Transact(_usersRepository, _moviesRepository, user, movie, rating);
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("rate")]
         public async Task RateMovie([FromQuery] int id, [FromQuery] string title, [FromQuery] int rating)
         {
             var user = await _usersRepository.GetById(id);
             var movie = await _moviesRepository.Find(title);
-            var movieRating = await _ratingsRepository.Get(id, title);
+            var movieRating = await _ratingsRepository.Get(user.UserId, movie.IMDbId);
             movieRating.MovieRating = rating;
 
             await _transactionRepository
@@ -87,7 +87,7 @@ namespace OMDbApi.Api.Controllers
             var entity = await _usersRepository.GetById(id);
             entity.FirstName = user.FirstName;
             entity.LastName = user.LastName;
-            await _usersRepository.Update(entity);
+            _usersRepository.Update(entity);
         }
 
         [HttpDelete]

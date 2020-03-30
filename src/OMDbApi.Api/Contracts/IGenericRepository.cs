@@ -13,7 +13,7 @@ namespace OMDbApi.Api.Contracts
         Task<T> Find(object predicate);
         Task Add(T entity);
         Task Remove(object id);
-        Task Update(T entity);
+        void Update(T entity);
         Task Save(T entity);
         bool DoesExist(T enity);
     }
