@@ -45,8 +45,9 @@ namespace OMDbApi.Api.Services
 
         public async Task Add(Movie entity)
         {
+            if (DoesExist(entity))
+                return;
             await _context.AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<Movie> Find(object id)

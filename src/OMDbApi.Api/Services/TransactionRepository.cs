@@ -57,7 +57,7 @@ namespace OMDbApi.Api.Services
         }
 
         public async Task Transact(IGenericRepository<User> users, IGenericRepository<Movie> movies, 
-            User user, Movie movie, Rating rating)
+            User user, Movie movie)
         {
             var transaction = CreateTransaction(user, movie);
             using var transact = _context.Database.BeginTransaction();
@@ -66,7 +66,6 @@ namespace OMDbApi.Api.Services
                 await movies.Add(movie);
                 users.Update(user);
                 await Add(transaction);
-                await _context.AddAsync(rating);
                 await _context.SaveChangesAsync();
 
                 transact.Commit();
@@ -85,7 +84,7 @@ namespace OMDbApi.Api.Services
             using var transact = _context.Database.BeginTransaction();
             try
             {
-                ratings.Update(rating);
+                await ratings.Add(rating);
                 users.Update(user);
                 await Add(transaction);
                 await _context.SaveChangesAsync();

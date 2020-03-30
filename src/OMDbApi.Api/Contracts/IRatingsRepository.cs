@@ -5,7 +5,9 @@ namespace OMDbApi.Api.Contracts
 {
     public interface IRatingsRepository
     {
+        public Task Add(Rating rating);
+        public Rating CreateRating(int UserId, string IMDbId);
         public void Update(Rating rating);
-        public Task<Rating> Get(int userId, string movieId);
+        public Rating Get(int userId, string movieId);
     }
 }

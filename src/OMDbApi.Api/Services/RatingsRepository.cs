@@ -18,25 +18,53 @@ namespace OMDbApi.Api.Services
             _context = context;
         }
 
+        public async Task Add(Rating rating)
+        {
+
+            if (DoesExist(rating))
+            {
+                Update(rating);
+                return;
+            }
+            
+            await _context.AddAsync(CreateRating(rating.UserId, rating.IMDbId));
+        }
+
+        public Rating CreateRating(int UserId, string IMDbId)
+        {
+            return new Rating { UserId = UserId, IMDbId = IMDbId };
+        }
+
         public void Update(Rating rating)
         {
             _context.Update(rating);
         }
 
-        public async Task<Rating> Get(int userId, string movieId)
+        public Rating Get(int userId, string movieId)
         {
-            Rating result = null;
+            Rating rating = new Rating()
+            {
+                UserId = userId, IMDbId = movieId
+            };
+
             try
             {
-                result = await _context.Ratings
-                    .FirstOrDefaultAsync(c => c.UserId == userId && c.IMDbId == movieId);
+                if (DoesExist(rating))
+                    rating = CreateRating(userId, movieId);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
                 throw;
             }
-            return result;
+            return rating;
+        }
+
+        public bool DoesExist(Rating rating)
+        {
+            if (_context.Ratings.Any(c => c.UserId == rating.UserId && c.IMDbId == rating.IMDbId))
+                return true;
+            return false;
         }
     }
 }
