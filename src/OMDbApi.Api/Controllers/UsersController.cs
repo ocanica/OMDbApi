@@ -73,7 +73,7 @@ namespace OMDbApi.Api.Controllers
         {
             var user = await _usersRepository.GetById(id);
             var movie = await _moviesRepository.Find(title);
-            var movieRating = _ratingsRepository.Get(user.UserId, movie.IMDbId);
+            var movieRating = _ratingsRepository.CreateRating(user.UserId, movie.IMDbId);
             movieRating.MovieRating = rating;
 
             await _transactionRepository

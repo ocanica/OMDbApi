@@ -24,10 +24,10 @@ namespace OMDbApi.Api.Services
             if (DoesExist(rating))
             {
                 Update(rating);
-                return;
+            } else
+            {
+                await _context.AddAsync(rating);
             }
-            
-            await _context.AddAsync(CreateRating(rating.UserId, rating.IMDbId));
         }
 
         public Rating CreateRating(int UserId, string IMDbId)
@@ -38,26 +38,6 @@ namespace OMDbApi.Api.Services
         public void Update(Rating rating)
         {
             _context.Update(rating);
-        }
-
-        public Rating Get(int userId, string movieId)
-        {
-            Rating rating = new Rating()
-            {
-                UserId = userId, IMDbId = movieId
-            };
-
-            try
-            {
-                if (DoesExist(rating))
-                    rating = CreateRating(userId, movieId);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                throw;
-            }
-            return rating;
         }
 
         public bool DoesExist(Rating rating)
