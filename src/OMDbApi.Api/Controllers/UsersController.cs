@@ -39,19 +39,27 @@ namespace OMDbApi.Api.Controllers
         }
 
         // GET api/[controller]/2
-        [HttpGet]
+        /*[HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var result = await _usersRepository.GetById(id);
             if (result == null)
                 return NotFound();
             return Ok(result);
+        }*/
+
+        // GET api/[controller]/carlton
+        [HttpGet]
+        [Route("{username}")]
+        public async Task<IActionResult> GetByUser(string username)
+        {
+            var result = await _usersRepository.GetByUsername(username);
+            return Ok(result);
         }
 
         // POST api/[controller]
         [HttpPost]
-        
         public async Task PostUser([FromBody] User user)
         {
             await _usersRepository.Add(user);
@@ -100,6 +108,13 @@ namespace OMDbApi.Api.Controllers
         public async Task Remove(int id)
         {
             await _usersRepository.Remove(id);
+        }
+
+        [HttpGet]
+        [Route("{username}/movies")]
+        public IActionResult GetMovies(string username)
+        {
+            return Ok(_usersRepository.ReturnUserMovies(username));
         }
     }
 }

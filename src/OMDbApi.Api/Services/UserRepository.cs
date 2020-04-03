@@ -15,7 +15,8 @@ namespace OMDbApi.Api.Services
 
         public UserRepository(OMDbContext context)
         {
-            _context = context;
+            _context = context
+                ?? throw new ArgumentNullException(nameof(context));
         }
 
         public IQueryable<User> GetAll()
@@ -26,6 +27,12 @@ namespace OMDbApi.Api.Services
         {
             return await _context.Users
                 .FirstOrDefaultAsync(u => u.UserId == id);
+        }
+        public async Task<User> GetByUsername(string username)
+        {
+            var test = username;
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Username == username);
         }
 
         public async Task Add(User entity)
@@ -45,6 +52,7 @@ namespace OMDbApi.Api.Services
         public async Task Remove(object id)
         {
             var entity = await GetById(id);
+        
             _context.RemoveRange(entity);
             await _context.SaveChangesAsync();
         }
@@ -73,5 +81,27 @@ namespace OMDbApi.Api.Services
         {
             throw new NotImplementedException();
         }
+
+        public object ReturnUserMovies(string username)
+        {
+            var result = (from r in _context.Ratings
+                          join m in _context.Movies on r.IMDbId equals m.IMDbId
+                          join u in _context.Users on r.UserId equals u.UserId
+                          where u.Username == username
+                          select new { m.Title, r.MovieRating });
+
+            return result;
+        }
+        
+        /*public object ReturnUserMovies()
+        {
+            var result = (from r in _context.Ratings
+                          join m in _context.Movies on r.IMDbId equals m.IMDbId
+                          join u in _context.Users on r.UserId equals u.UserId
+                          where u.FirstName == "Carlton"
+                          select new { u.FirstName, m.Title, r.MovieRating });
+
+            return result;
+        }*/
     }
 }

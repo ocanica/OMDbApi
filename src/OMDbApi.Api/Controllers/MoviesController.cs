@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using OMDbApi.Api.Contracts;
 using OMDbApi.Api.Models;
 using System.Linq;
+using System;
 
 namespace OMDbApi.Api.Controllers
 {
@@ -17,10 +18,11 @@ namespace OMDbApi.Api.Controllers
 
         public MoviesController(IMoviesRepository moviesRepository)
         {
-            _moviesRepository = moviesRepository;
+            _moviesRepository = moviesRepository
+                ?? throw new ArgumentNullException(nameof(moviesRepository));
         }
 
-        //Get: api/Movies
+        // GET api/[controller]
         [HttpGet]
         public IActionResult GetMovies()
         {
@@ -29,7 +31,7 @@ namespace OMDbApi.Api.Controllers
             return Ok(result);
         }
 
-        //Get: api/Movies/Ghostbusters
+        // GET api/[controller]/tt0062622
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetMovie(string id)
@@ -38,6 +40,7 @@ namespace OMDbApi.Api.Controllers
             return Ok(result);
         }
 
+        // POST api/[controller]/add/tt0062622
         [HttpPost]
         [Route("add/{id}")]
         public async Task AddMovie(string id)

@@ -16,7 +16,8 @@ namespace OMDbApi.Api.Services
 
         public TransactionRepository(OMDbContext context)
         {
-            _context = context;
+            _context = context
+                ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task Add(Transaction entity)

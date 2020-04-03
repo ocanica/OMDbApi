@@ -21,8 +21,10 @@ namespace OMDbApi.Api.Services
 
         public MoviesRepository(OMDbContext context, IHttpClientFactory httpClientFactory)
         {
-            _context = context;
-            _httpClientFactory = httpClientFactory;
+            _context = context 
+                ?? throw new ArgumentNullException(nameof(context));
+            _httpClientFactory = httpClientFactory
+                ?? throw new ArgumentNullException(nameof(httpClientFactory));
             _constants = new Constants();
         }
 
