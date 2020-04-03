@@ -40,13 +40,22 @@ namespace OMDbApi.Api.Controllers
             return Ok(result);
         }
 
-        // POST api/[controller]/add/tt0062622
-        [HttpPost]
-        [Route("add/{id}")]
-        public async Task AddMovie(string id)
+        [HttpGet]
+        [Route("search")]
+        public async Task<IActionResult> FindMovie([FromQuery]string q)
         {
-            var movie = await _moviesRepository.Find(id);
+            var movies = await _moviesRepository.ReturnTitles(q);
+            return Ok(movies);
+        }
+
+        // POST api/[controller]/Batman
+        [HttpPost]
+        [Route("{title}")]
+        public async Task AddMovie(string title)
+        {
+            var movie = await _moviesRepository.ReturnTitle(title);
             await _moviesRepository.Add(movie);
         }
+
     }
 }

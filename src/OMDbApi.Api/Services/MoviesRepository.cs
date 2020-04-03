@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using OMDbApi.Api.Contracts;
 using OMDbApi.Api.Data;
 using OMDbApi.Api.Models;
@@ -50,30 +51,27 @@ namespace OMDbApi.Api.Services
             if (DoesExist(entity))
                 return;
             await _context.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<Movie> Find(object id)
+        public async Task<Movie> ReturnTitle(string title)
         {
             var configData = await _constants.omdbConfigData;
             var client = _httpClientFactory.CreateClient();
             var response = await client
-                .GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t={id.ToString()}");
+                .GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t={title.ToString()}");
             return JsonSerializer.Deserialize<Movie>(response);
         }
-        public Task Rate(int id, string imdbId, int rating)
+
+        public async Task<IEnumerable<MovieMinified>> ReturnTitles(string title)
         {
-            /*var user = await _usersRepository.GetById(id);
-            var movie = await GetById(imdbId);
-            var transact = _transactionsRepository.Transact(user.UserId, movie.IMDbId);
-
-            using (var transaction = _context.Database.BeginTransaction())
-            {
-                try
-                {
-
-                }
-            }*/
-            throw new NotImplementedException();
+            var configData = await _constants.omdbConfigData;
+            var client = _httpClientFactory.CreateClient();
+            var response = await client
+                .GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&s={title.ToString()}&type=movie");
+            // Need to research JObject implementation in Text.Json;
+            var jsonDocument = JObject.Parse(response).SelectToken("Search").ToString();
+            return JsonSerializer.Deserialize<IEnumerable<MovieMinified>>(jsonDocument);
         }
 
         public async Task Remove(object id)
@@ -84,11 +82,11 @@ namespace OMDbApi.Api.Services
         }
 
         // Change entity state
-        public async Task Save(Movie entity)
+        /*public async Task Save(Movie entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-        }
+        }*/
 
         public void Update(Movie entity)
         {
@@ -103,6 +101,11 @@ namespace OMDbApi.Api.Services
         }
 
         public Task Add(int id, string title)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Save(Movie entity)
         {
             throw new NotImplementedException();
         }

@@ -42,11 +42,6 @@ namespace OMDbApi.Api.Services
             throw new NotImplementedException();
         }
 
-        public Task<Transaction> Find(object predicate)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(Transaction entity)
         {
             throw new NotImplementedException();
@@ -57,26 +52,26 @@ namespace OMDbApi.Api.Services
             throw new NotImplementedException();
         }
 
-        public async Task Transact(IGenericRepository<User> users, IGenericRepository<Movie> movies, 
-            User user, Movie movie)
-        {
-            var transaction = CreateTransaction(user, movie);
-            using var transact = _context.Database.BeginTransaction();
-            try
-            {
-                await movies.Add(movie);
-                users.Update(user);
-                await Add(transaction);
-                await _context.SaveChangesAsync();
+        //public async Task Transact(IGenericRepository<User> users, IGenericRepository<Movie> movies,
+        //    User user, Movie movie)
+        //{
+        //    var transaction = CreateTransaction(user, movie);
+        //    using var transact = _context.Database.BeginTransaction();
+        //    try
+        //    {
+        //        await movies.Add(movie);
+        //        users.Update(user);
+        //        await Add(transaction);
+        //        await _context.SaveChangesAsync();
 
-                transact.Commit();
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                throw;
-            }
-        }
+        //        transact.Commit();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.WriteLine(e.Message);
+        //        throw;
+        //    }
+        //}
 
         public async Task Transact(IGenericRepository<User> users, IGenericRepository<Movie> movies, 
             IRatingsRepository ratings, User user, Movie movie, Rating rating)

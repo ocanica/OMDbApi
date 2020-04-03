@@ -34,6 +34,16 @@ namespace OMDbApi.Api.Services
             return await _context.Users
                 .FirstOrDefaultAsync(u => u.Username == username);
         }
+        public object GetUserMovies(string username)
+        {
+            var result = (from r in _context.Ratings
+                          join m in _context.Movies on r.IMDbId equals m.IMDbId
+                          join u in _context.Users on r.UserId equals u.UserId
+                          where u.Username == username
+                          select new { m.Title, r.MovieRating });
+
+            return result;
+        }
 
         public async Task Add(User entity)
         {
@@ -56,20 +66,15 @@ namespace OMDbApi.Api.Services
             _context.RemoveRange(entity);
             await _context.SaveChangesAsync();
         }
-        public Task<User> GetById(object id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> Find(object predicate)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(User entity)
         {
             entity.DateModified = DateTime.Now;
             _context.Update(entity);
+        }
+
+        public Task<User> GetById(object id)
+        {
+            throw new NotImplementedException();
         }
 
         public Task Save(User entity)
@@ -81,27 +86,5 @@ namespace OMDbApi.Api.Services
         {
             throw new NotImplementedException();
         }
-
-        public object ReturnUserMovies(string username)
-        {
-            var result = (from r in _context.Ratings
-                          join m in _context.Movies on r.IMDbId equals m.IMDbId
-                          join u in _context.Users on r.UserId equals u.UserId
-                          where u.Username == username
-                          select new { m.Title, r.MovieRating });
-
-            return result;
-        }
-        
-        /*public object ReturnUserMovies()
-        {
-            var result = (from r in _context.Ratings
-                          join m in _context.Movies on r.IMDbId equals m.IMDbId
-                          join u in _context.Users on r.UserId equals u.UserId
-                          where u.FirstName == "Carlton"
-                          select new { u.FirstName, m.Title, r.MovieRating });
-
-            return result;
-        }*/
     }
 }

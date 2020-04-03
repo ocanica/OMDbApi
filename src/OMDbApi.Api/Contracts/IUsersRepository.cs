@@ -8,6 +8,6 @@ namespace OMDbApi.Api.Contracts
         Task<User> GetById(int id);
         Task<User> GetByUsername(string name);
         Task Remove(int id);
-        object ReturnUserMovies(string username);
+        object GetUserMovies(string username);
     }
 }

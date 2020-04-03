@@ -10,7 +10,6 @@ namespace OMDbApi.Api.Contracts
     {
         IQueryable<T> GetAll();
         Task<T> GetById(object id);
-        Task<T> Find(object predicate);
         Task Add(T entity);
         Task Remove(object id);
         void Update(T entity);
