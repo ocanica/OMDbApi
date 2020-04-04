@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMDbApi.Api", "OMDbApi.Api\OMDbApi.Api.csproj", "{99F5D6B4-307A-4284-9F81-0DF78AA7A25B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMDbApi.Api", "OMDbApi.Api\OMDbApi.Api.csproj", "{99F5D6B4-307A-4284-9F81-0DF78AA7A25B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMDbApi.Test", "OMDbApi.Test\OMDbApi.Test.csproj", "{DC9C1831-7FF0-4805-8DCD-3541040CEDE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMDbApi.Test", "OMDbApi.Test\OMDbApi.Test.csproj", "{DC9C1831-7FF0-4805-8DCD-3541040CEDE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{99F5D6B4-307A-4284-9F81-0DF78AA7A25B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -44,5 +41,11 @@ Global
 		{DC9C1831-7FF0-4805-8DCD-3541040CEDE1}.Release|x64.Build.0 = Release|Any CPU
 		{DC9C1831-7FF0-4805-8DCD-3541040CEDE1}.Release|x86.ActiveCfg = Release|Any CPU
 		{DC9C1831-7FF0-4805-8DCD-3541040CEDE1}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {96C93713-0313-4BCC-8CD5-6903A8DD1169}
 	EndGlobalSection
 EndGlobal

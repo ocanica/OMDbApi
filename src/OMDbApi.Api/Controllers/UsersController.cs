@@ -54,7 +54,7 @@ namespace OMDbApi.Api.Controllers
             await _usersRepository.Add(user);
         }
 
-        // PUT api/[controller]/[username]/rate[?imdbid=tt0096895&rating=7]
+        // PUT api/[controller]/[username]/rate[?imdbid=B&rating=7]
         [HttpPut]
         [Route("{username}/rate")]
         public async Task RateMovie(string username, [FromQuery] string imdbId, [FromQuery] int rating)
