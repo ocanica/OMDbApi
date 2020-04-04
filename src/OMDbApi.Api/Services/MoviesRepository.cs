@@ -54,12 +54,21 @@ namespace OMDbApi.Api.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Movie> ReturnId(string imdbId)
+        {
+            var configData = await _constants.omdbConfigData;
+            var client = _httpClientFactory.CreateClient();
+            var response = await client
+                .GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&i={imdbId}&type=movie");
+            return JsonSerializer.Deserialize<Movie>(response);
+        }
+
         public async Task<Movie> ReturnTitle(string title)
         {
             var configData = await _constants.omdbConfigData;
             var client = _httpClientFactory.CreateClient();
             var response = await client
-                .GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t={title.ToString()}");
+                .GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&t={title}&type=movie");
             return JsonSerializer.Deserialize<Movie>(response);
         }
 
@@ -68,7 +77,7 @@ namespace OMDbApi.Api.Services
             var configData = await _constants.omdbConfigData;
             var client = _httpClientFactory.CreateClient();
             var response = await client
-                .GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&s={title.ToString()}&type=movie");
+                .GetStringAsync($"{configData.BaseUrl}?apikey={configData.ApiKey}&s={title}&type=movie");
             // Need to research JObject implementation in Text.Json;
             var jsonDocument = JObject.Parse(response).SelectToken("Search").ToString();
             return JsonSerializer.Deserialize<IEnumerable<MovieMinified>>(jsonDocument);
@@ -81,13 +90,6 @@ namespace OMDbApi.Api.Services
             await _context.SaveChangesAsync();
         }
 
-        // Change entity state
-        /*public async Task Save(Movie entity)
-        {
-            _context.Entry(entity).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-        }*/
-
         public void Update(Movie entity)
         {
             throw new NotImplementedException();
@@ -98,16 +100,6 @@ namespace OMDbApi.Api.Services
             if (_context.Movies.Any(c => c.IMDbId == enity.IMDbId))
                 return true;
             return false;
-        }
-
-        public Task Add(int id, string title)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Save(Movie entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

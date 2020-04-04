@@ -77,11 +77,6 @@ namespace OMDbApi.Api.Services
             throw new NotImplementedException();
         }
 
-        public Task Save(User entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool DoesExist(User enity)
         {
             throw new NotImplementedException();

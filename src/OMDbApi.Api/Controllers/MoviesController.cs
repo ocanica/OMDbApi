@@ -50,10 +50,10 @@ namespace OMDbApi.Api.Controllers
 
         // POST api/[controller]/Batman
         [HttpPost]
-        [Route("{title}")]
-        public async Task AddMovie(string title)
+        [Route("{imdbid}")]
+        public async Task AddMovie(string imdbId)
         {
-            var movie = await _moviesRepository.ReturnTitle(title);
+            var movie = await _moviesRepository.ReturnId(imdbId);
             await _moviesRepository.Add(movie);
         }
 

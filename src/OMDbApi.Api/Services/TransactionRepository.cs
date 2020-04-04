@@ -47,11 +47,6 @@ namespace OMDbApi.Api.Services
             throw new NotImplementedException();
         }
 
-        public Task Save(Transaction entity)
-        {
-            throw new NotImplementedException();
-        }
-
         //public async Task Transact(IGenericRepository<User> users, IGenericRepository<Movie> movies,
         //    User user, Movie movie)
         //{

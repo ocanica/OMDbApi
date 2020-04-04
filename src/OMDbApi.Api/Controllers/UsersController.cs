@@ -38,17 +38,6 @@ namespace OMDbApi.Api.Controllers
             return Ok(result);
         }
 
-        // GET api/[controller]/2
-        /*[HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var result = await _usersRepository.GetById(id);
-            if (result == null)
-                return NotFound();
-            return Ok(result);
-        }*/
-
         // GET api/[controller]/carlton
         [HttpGet]
         [Route("{username}")]
@@ -65,25 +54,13 @@ namespace OMDbApi.Api.Controllers
             await _usersRepository.Add(user);
         }
 
-        // POST api/[controller]/add[?id=2&title=batman]
-        /*[HttpPost]
-        [Route("add")]
-        public async Task PostMovie([FromQuery] int id, [FromQuery] string title)
-        {
-            var user = await _usersRepository.GetById(id);
-            var movie = await _moviesRepository.ReturnTitle(title);
-
-            await _transactionRepository
-                .Transact(_usersRepository, _moviesRepository, user, movie);
-        }*/
-
-        // PUT api/[controller]/[username]/rate[?title=batman&rating=7]
+        // PUT api/[controller]/[username]/rate[?imdbid=tt0096895&rating=7]
         [HttpPut]
         [Route("{username}/rate")]
-        public async Task RateMovie(string username, [FromQuery] string title, [FromQuery] int rating)
+        public async Task RateMovie(string username, [FromQuery] string imdbId, [FromQuery] int rating)
         {
             var user = await _usersRepository.GetByUsername(username);
-            var movie = await _moviesRepository.ReturnTitle(title);
+            var movie = await _moviesRepository.GetById(imdbId);
             var movieRating = _ratingsRepository.CreateRating(user.UserId, movie.IMDbId);
             movieRating.MovieRating = rating;
 
